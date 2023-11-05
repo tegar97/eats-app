@@ -1,21 +1,24 @@
 package com.tegar.eats
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -44,16 +47,18 @@ fun EatsApp(
     Scaffold(
         bottomBar = {
 
-            BottomBar(navController)
+            if (currentRoute != null) {
+                BottomBar(navController, currentRoute)
+            }
 
         },
         modifier = modifier
 
-    ) { innerPadding ->
+    ) { paddingValue ->
         NavHost(
             navController = navController,
             startDestination = Screen.Home.route,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(16.dp)
         ) {
             composable(Screen.Home.route) {
                 HomeScreen()
@@ -77,13 +82,21 @@ fun EatsApp(
 @Composable
 private fun BottomBar(
     navController: NavHostController,
+    currentRoute: String,
     modifier: Modifier = Modifier
 ) {
-    NavigationBar(modifier = modifier) {
+    NavigationBar(
+        modifier = Modifier
+            .background(Color.White),
+        tonalElevation = 1.dp,
+        containerColor = Color.White
+
+    ) {
+
         val navigationItems = listOf(
             NavigationItem(
                 title = stringResource(R.string.menu_home),
-                icon = Icons.Default.Home,
+                icon = if (currentRoute == Screen.Home.route) Icons.Filled.Home else Icons.Outlined.Home,
                 screen = Screen.Home
 
             ),
@@ -107,22 +120,28 @@ private fun BottomBar(
         )
 
         navigationItems.map { item ->
-            NavigationBarItem(selected = false, onClick = {
-                navController.navigate(item.screen.route) {
-                    popUpTo(navController.graph.findStartDestination().id) {
-                        saveState = true
-                    }
-                    restoreState = true
-                    launchSingleTop = true
-                }
 
-            },
+            NavigationBarItem(
+
+
+                selected = currentRoute == item.screen.route,
+                onClick = {
+                    navController.navigate(item.screen.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        restoreState = true
+                        launchSingleTop = true
+                    }
+
+                },
 
                 icon = {
                     Icon(
                         imageVector = item.icon,
-                        contentDescription = item.title
-                    )
+                        contentDescription = item.title,
+
+                        )
                 })
         }
     }

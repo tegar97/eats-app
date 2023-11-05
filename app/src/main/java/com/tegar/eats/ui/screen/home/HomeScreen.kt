@@ -11,6 +11,6 @@ fun HomeScreen(
     modifier : Modifier = Modifier
 ){
     Box {
-        Text("Home Screen")
+        Text("Home Screen sadasdasd")
     }
 }
