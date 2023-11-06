@@ -5,4 +5,12 @@
     <string name="menu_order">Order</string>
     <string name="menu_profile">Profile</string>
 
+        <string name="user_card_image">User card image</string>
+        <string name="balance_icon">Balance icon</string>
+        <string name="your_balance">Your balance</string>
+        <string name="top_up">Top up</string>
+        <string name="pay">Pay</string>
+        <string name="top_up_icon">Top up icon</string>
+
+
 </resources>

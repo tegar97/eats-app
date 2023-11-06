@@ -58,7 +58,7 @@ fun EatsApp(
         NavHost(
             navController = navController,
             startDestination = Screen.Home.route,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(paddingValue)
         ) {
             composable(Screen.Home.route) {
                 HomeScreen()
