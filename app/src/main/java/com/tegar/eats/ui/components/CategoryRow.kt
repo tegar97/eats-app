@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tegar.eats.model.Category
+import com.tegar.eats.utils.LocalCustomColorsPalette
 
 @Composable
 fun CategoryRow(
@@ -49,7 +50,7 @@ fun CategoryItem(@DrawableRes categoryIcon : Int, @StringRes textCategory : Int,
             modifier = Modifier
                 .size(60.dp)
                 .background(
-                    color = Color(0xffF6F7FB),
+                    color = LocalCustomColorsPalette.current.costumeSpecialBackground,
                     shape = RoundedCornerShape(20)
                 )
         ){

@@ -39,6 +39,7 @@ import com.tegar.eats.data.dummyRestaurantList
 import com.tegar.eats.model.Category
 import com.tegar.eats.model.Restaurant
 import com.tegar.eats.ui.theme.EatsTheme
+import com.tegar.eats.utils.LocalCustomColorsPalette
 
 
 @Composable
@@ -65,7 +66,7 @@ fun RestaurantItem(
     Card(
         modifier = modifier.width(153.dp),
         shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.dp , Color(0xffE6E6E6)),
+        border = BorderStroke(1.dp , LocalCustomColorsPalette.current.costumeBorderColor),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background,
         )

@@ -1,29 +1,19 @@
 package com.tegar.eats.ui.components
 
-import android.provider.CalendarContract.Colors
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -39,9 +29,10 @@ import androidx.compose.ui.unit.dp
 import com.tegar.eats.R
 import com.tegar.eats.ui.theme.DarkBlue
 import com.tegar.eats.ui.theme.EatsTheme
+import com.tegar.eats.utils.LocalCustomColorsPalette
 
 @Composable
-fun UserCard(
+fun UserBalanceCard(
     modifier: Modifier = Modifier,
     balance: String,
     onTopUpClick: () -> Unit,
@@ -51,7 +42,7 @@ fun UserCard(
         contentAlignment = Alignment.Center,
         modifier = modifier.padding(16.dp)
     ) {
-        UserCardImage()
+        CardBackground()
         UserCardDetails(
             modifier = Modifier
                 .padding(6.dp)
@@ -64,13 +55,12 @@ fun UserCard(
 }
 
 @Composable
-fun UserCardImage() {
+fun CardBackground() {
     Image(
         painter = painterResource(id = R.drawable.bg_user_card),
         contentDescription = stringResource(id = R.string.user_card_image),
         contentScale = ContentScale.Crop,
         modifier = Modifier.fillMaxWidth()
-
     )
 }
 
@@ -86,7 +76,7 @@ fun UserCardDetails(
     ) {
         Box(
             modifier = Modifier
-                .background(Color.White, RoundedCornerShape(8.dp))
+                .background(LocalCustomColorsPalette.current.costumeCardColor, RoundedCornerShape(8.dp))
                 .padding(horizontal = 12.dp, vertical = 12.dp)
         ) {
            Row{
@@ -117,13 +107,15 @@ fun UserBalanceSection(balance: String) {
                 Text(
                     text = stringResource(id = R.string.your_balance),
                     style = MaterialTheme.typography.headlineSmall,
-                    color = Color(0xff0F172C)
+                    color = LocalCustomColorsPalette.current.costumeSpecialColor
                 )
             }
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = balance,
-                style = MaterialTheme.typography.displayMedium
+                style = MaterialTheme.typography.displayMedium,
+                color = LocalCustomColorsPalette.current.costumeSpecialColor
+
             )
         }
     }
@@ -161,21 +153,24 @@ fun VerticalButton(
             modifier = Modifier
                 .size(40.dp)
                 .background(
-                    color = DarkBlue,
-                    shape = RoundedCornerShape(20)
+                    color = LocalCustomColorsPalette.current.costumeSpecialColor,
+
+                            shape = RoundedCornerShape(20)
                 )
                 .clickable(onClick = onClick)
         ) {
             Icon(
                 painter = painterResource(icon),
                 contentDescription = stringResource(id = R.string.top_up_icon),
-                tint = Color.White
+                tint = LocalCustomColorsPalette.current.costumeBlackWhite
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = title,
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.headlineSmall,
+            color = LocalCustomColorsPalette.current.costumeSpecialColor
+
         )
     }
 }
@@ -184,7 +179,7 @@ fun VerticalButton(
 @Preview(showBackground = true)
 fun UserCardPreview() {
     EatsTheme {
-        UserCard(
+        UserBalanceCard(
             balance = "Rp 1.230.232",
             onTopUpClick = { /* Handle top-up click */ },
             onPayClick = { /* Handle pay click */ }

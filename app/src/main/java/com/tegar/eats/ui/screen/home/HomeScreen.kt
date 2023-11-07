@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -46,7 +47,7 @@ import com.tegar.eats.ui.components.CircleAction
 import com.tegar.eats.ui.components.CostumeForm
 import com.tegar.eats.ui.components.ListSection
 import com.tegar.eats.ui.components.RestaurantRow
-import com.tegar.eats.ui.components.UserCard
+import com.tegar.eats.ui.components.UserBalanceCard
 import com.tegar.eats.ui.theme.DarkBlue
 import com.tegar.eats.ui.theme.EatsTheme
 import com.tegar.eats.ui.theme.ManropeFamiliy
@@ -63,20 +64,13 @@ fun HomeScreen(
             .verticalScroll(rememberScrollState())
 
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(16.dp)
-        ) {
-            // Menggunakan CostumeForm dengan state dan onValueChange
-            CostumeForm(
-                value = costumeFormValue,
-                onValueChange = { newValue -> costumeFormValue = newValue }
-            )
-            Spacer(modifier = Modifier.weight(1.0f))
-            CircleAction(icon = R.drawable.ic_filter, onClick = { /*TODO*/ })
-        }
+        CostumeForm(
+            value = costumeFormValue,
+            onValueChange = { newValue -> costumeFormValue = newValue }
+        )
 
-        UserCard(balance = "Rp 1.253.00", onTopUpClick = { /*TODO*/ } , onPayClick = {})
+
+        UserBalanceCard(balance = "Rp 1.253.00", onTopUpClick = { /*TODO*/ } , onPayClick = {})
 
         ListSection(
             title = stringResource(R.string.section_category),

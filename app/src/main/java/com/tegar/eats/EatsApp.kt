@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,6 +46,7 @@ import com.tegar.eats.ui.screen.notification.NotificationScreen
 import com.tegar.eats.ui.screen.order.OrderScreen
 import com.tegar.eats.ui.screen.profile.ProfileScreen
 import com.tegar.eats.ui.theme.EatsTheme
+import com.tegar.eats.utils.LocalCustomColorsPalette
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -104,10 +106,11 @@ private fun BottomBar(
 ) {
     NavigationBar(
 
-        modifier = Modifier
-            .background(Color.White),
+
+
         tonalElevation = 1.dp,
-        containerColor = Color.White
+
+        containerColor = LocalCustomColorsPalette.current.costumeCardColor
 
     ) {
 
@@ -175,7 +178,7 @@ fun TopBar(modifier: Modifier = Modifier) {
                 Text(
                     stringResource(id = R.string.your_location_text),
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        color = Color(0xff999999)
+                        color = LocalCustomColorsPalette.current.costumeRegularbodyText
                     )
                 )
                 Spacer(modifier = Modifier.height(5.dp))
@@ -194,7 +197,7 @@ fun TopBar(modifier: Modifier = Modifier) {
                     Text(
                         text = stringResource(id = R.string.dummy_location),
                         style = MaterialTheme.typography.labelLarge.copy(
-                            color = Color.Black
+                            color =  LocalCustomColorsPalette.current.costumeRegularTitleText
                         )
                     )
                 }
@@ -203,8 +206,9 @@ fun TopBar(modifier: Modifier = Modifier) {
         actions = {
             Image(
                 painter = painterResource(R.drawable.icon_fav),
+                colorFilter = ColorFilter.tint(LocalCustomColorsPalette.current.costumeWhiteBlack),
                 contentDescription = null,
-                Modifier.size(24.dp)
+                modifier = Modifier.size(24.dp)
 
             )
         },

@@ -35,9 +35,9 @@ fun CircleAction(@DrawableRes icon: Int, onClick: () -> Unit, modifier: Modifier
                 CircleShape
             )
 
-            .padding(4.dp)
+
             .clip(CircleShape)
-            .size(40.dp)
+            .size(50.dp)
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
 
