@@ -13,7 +13,8 @@ val ManropeFamiliy = FontFamily(
     Font(R.font.manrope_regular),
     Font(R.font.manrope_medium),
     Font(R.font.manrope_semibold),
-    Font(R.font.manrope_semibold),
+    Font(R.font.manrope_bold),
+    Font(R.font.manrope_extrabold),
 
     )
 
@@ -35,19 +36,36 @@ val Typography = Typography(
         fontWeight = FontWeight.Bold,
         fontSize = 14.sp
     ),
+    bodyLarge = TextStyle(
+        fontFamily = ManropeFamiliy,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = ManropeFamiliy,
+        fontWeight = FontWeight.Medium,
+        fontSize = 12.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = ManropeFamiliy,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp
+    ),
     headlineSmall = TextStyle(
         fontFamily = ManropeFamiliy,
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp
+    ),
+    labelLarge = TextStyle(
+        fontFamily = ManropeFamiliy,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp
     ),
     labelSmall = TextStyle(
         fontFamily = ManropeFamiliy,
         fontWeight = FontWeight.Bold,
         fontSize = 14.sp
     ),
-    bodyLarge = TextStyle(
-        fontFamily = ManropeFamiliy,
-        fontWeight = FontWeight.Normal,
-        fontSize = 14.sp
+
+
     )
-)

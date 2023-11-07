@@ -37,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tegar.eats.R
+import com.tegar.eats.ui.theme.DarkBlue
 import com.tegar.eats.ui.theme.EatsTheme
 
 @Composable
@@ -48,7 +49,7 @@ fun UserCard(
 ) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier
+        modifier = modifier.padding(16.dp)
     ) {
         UserCardImage()
         UserCardDetails(
@@ -69,6 +70,7 @@ fun UserCardImage() {
         contentDescription = stringResource(id = R.string.user_card_image),
         contentScale = ContentScale.Crop,
         modifier = Modifier.fillMaxWidth()
+
     )
 }
 
@@ -85,7 +87,7 @@ fun UserCardDetails(
         Box(
             modifier = Modifier
                 .background(Color.White, RoundedCornerShape(8.dp))
-                .padding(horizontal = 12.dp, vertical = 19.dp)
+                .padding(horizontal = 12.dp, vertical = 12.dp)
         ) {
            Row{
                UserBalanceSection(balance = balance)
@@ -159,7 +161,7 @@ fun VerticalButton(
             modifier = Modifier
                 .size(40.dp)
                 .background(
-                    color = Color(0xff0F172C),
+                    color = DarkBlue,
                     shape = RoundedCornerShape(20)
                 )
                 .clickable(onClick = onClick)

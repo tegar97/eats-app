@@ -5,12 +5,24 @@
     <string name="menu_order">Order</string>
     <string name="menu_profile">Profile</string>
 
-        <string name="user_card_image">User card image</string>
-        <string name="balance_icon">Balance icon</string>
-        <string name="your_balance">Your balance</string>
-        <string name="top_up">Top up</string>
-        <string name="pay">Pay</string>
-        <string name="top_up_icon">Top up icon</string>
+    <string name="user_card_image">User card image</string>
+    <string name="balance_icon">Balance icon</string>
+    <string name="your_balance">Your balance</string>
+    <string name="top_up">Top up</string>
+    <string name="pay">Pay</string>
+    <string name="top_up_icon">Top up icon</string>
+    <string name="section_category">Category</string>
+    <string name="section_top_restaurant">Top Rated Restaurant</string>
+    <string name="section_favorite_restaurant">Your favorite Restaurant</string>
 
+    <string name="placeholder_search">Craving Something Special?</string>
+    <string name="near_category">Nearest</string>
+    <string name="promo_category">Healthy</string>
+    <string name="best_seller_category">Best Seller</string>
+
+    <string name="healty_category">Healthy</string>
+
+    <string name="dummy_location">Jl. Palapa Blok A No.19</string>
+    <string name="your_location_text">Your Location</string>
 
 </resources>
