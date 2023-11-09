@@ -1,4 +1,4 @@
-package com.tegar.eats.model
+package com.tegar.eats.data.local.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

@@ -1,7 +1,7 @@
-package com.tegar.eats.data
+package com.tegar.eats.data.local.fake
 
 import com.tegar.eats.R
-import com.tegar.eats.model.Category
+import com.tegar.eats.data.local.model.Category
 
 val dummyCategory = listOf(
     R.drawable.ic_maps to R.string.near_category,

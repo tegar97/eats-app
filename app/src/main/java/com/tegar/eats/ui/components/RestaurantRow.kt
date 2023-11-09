@@ -3,13 +3,12 @@ package com.tegar.eats.ui.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,9 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tegar.eats.R
-import com.tegar.eats.data.dummyRestaurantList
-import com.tegar.eats.model.Category
-import com.tegar.eats.model.Restaurant
+import com.tegar.eats.data.local.model.Restaurant
 import com.tegar.eats.ui.theme.EatsTheme
 import com.tegar.eats.utils.LocalCustomColorsPalette
 
@@ -45,15 +42,17 @@ import com.tegar.eats.utils.LocalCustomColorsPalette
 @Composable
 fun RestaurantRow(
     listRestaurant: List<Restaurant>,
-    modifier: Modifier = Modifier
-) {
+    modifier: Modifier = Modifier,
+    navigateToDetail: (Long) -> Unit,
+
+    ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(horizontal = 16.dp),
         modifier = modifier
     ) {
         items(listRestaurant, key = { it.restaurantName }) { restaurant ->
-            RestaurantItem(restaurant = restaurant)
+            RestaurantItem(restaurant = restaurant, navigateToDetail = navigateToDetail)
         }
     }
 }
@@ -61,16 +60,23 @@ fun RestaurantRow(
 @Composable
 fun RestaurantItem(
     restaurant: Restaurant,
-    modifier: Modifier = Modifier
-) {
+    modifier: Modifier = Modifier,
+    navigateToDetail: (Long) -> Unit,
+
+    ) {
     Card(
-        modifier = modifier.width(153.dp),
         shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.dp , LocalCustomColorsPalette.current.costumeBorderColor),
+        border = BorderStroke(1.dp, LocalCustomColorsPalette.current.costumeBorderColor),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background,
-        )
-    ) {
+        ),
+        modifier = modifier
+            .width(153.dp)
+            .clickable {
+                navigateToDetail(restaurant.id)
+            },
+
+        ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(5.dp),
         ) {
@@ -166,6 +172,6 @@ fun RestaurantItem(
 //@Preview(showBackground = true)
 //fun RestaurantRowPreview(){
 //    EatsTheme {
-//        RestaurantItem()
+//        RestaurantRow(dummyRestaurantList)
 //    }
 //}

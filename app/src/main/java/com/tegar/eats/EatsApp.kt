@@ -35,12 +35,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.tegar.eats.ui.navigation.NavigationItem
 import com.tegar.eats.ui.navigation.Screen
+import com.tegar.eats.ui.screen.detail.DetailRestaurant
 import com.tegar.eats.ui.screen.home.HomeScreen
 import com.tegar.eats.ui.screen.notification.NotificationScreen
 import com.tegar.eats.ui.screen.order.OrderScreen
@@ -80,7 +83,12 @@ fun EatsApp(
             modifier = Modifier.padding(paddingValue)
         ) {
             composable(Screen.Home.route) {
-                HomeScreen()
+                HomeScreen(
+                    navigateToDetail =  {restaurantId ->
+                        navController.navigate(Screen.DetailRestaurant.createRoute(restaurantId))
+
+                    }
+                )
             }
             composable(Screen.Notification.route) {
                 NotificationScreen()
@@ -90,6 +98,17 @@ fun EatsApp(
             }
             composable(Screen.Profile.route) {
                 ProfileScreen()
+            }
+            composable(
+                route = Screen.DetailRestaurant.route,
+                arguments = listOf(navArgument("restaurantId") { type = NavType.LongType }),
+
+
+                ){
+                val restaurantId = it.arguments?.getLong("restaurantId") ?: -1L
+                    DetailRestaurant(restaurantId =  restaurantId ,                     navigateBack = { navController.navigateUp() },
+                    )
+
             }
         }
 
@@ -105,13 +124,9 @@ private fun BottomBar(
     modifier: Modifier = Modifier
 ) {
     NavigationBar(
-
-
-
         tonalElevation = 1.dp,
-
-        containerColor = LocalCustomColorsPalette.current.costumeCardColor
-
+        containerColor = LocalCustomColorsPalette.current.costumeCardColor,
+        modifier = modifier
     ) {
 
         val navigationItems = listOf(
@@ -197,7 +212,7 @@ fun TopBar(modifier: Modifier = Modifier) {
                     Text(
                         text = stringResource(id = R.string.dummy_location),
                         style = MaterialTheme.typography.labelLarge.copy(
-                            color =  LocalCustomColorsPalette.current.costumeRegularTitleText
+                            color = LocalCustomColorsPalette.current.costumeRegularTitleText
                         )
                     )
                 }
@@ -217,11 +232,18 @@ fun TopBar(modifier: Modifier = Modifier) {
     )
 }
 
-
 @Preview
 @Composable
-fun TopAppBarPreview() {
+fun EatsAppPreview() {
     EatsTheme {
-        TopBar()
+        EatsApp()
     }
 }
+
+//@Preview
+//@Composable
+//fun TopAppBarPreview() {
+//    EatsTheme {
+//        TopBar()
+//    }
+//}
