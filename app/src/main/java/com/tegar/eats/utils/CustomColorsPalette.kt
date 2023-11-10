@@ -14,6 +14,7 @@ data class CustomColorsPalette(
     val costumeSpecialColor : Color = Color.Unspecified,
     val costumeBorderColor : Color = Color.Unspecified,
     val costumeCardColor: Color = Color.Unspecified,
+    val costumeFontSubtitleColor : Color = Color.Unspecified
 
     )
 

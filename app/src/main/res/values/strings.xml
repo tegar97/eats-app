@@ -14,6 +14,9 @@
     <string name="section_category">Category</string>
     <string name="section_top_restaurant">Top Rated Restaurant</string>
     <string name="section_favorite_restaurant">Your favorite Restaurant</string>
+    <string name="check_out">Check it Out!</string>
+    <string name="promos_available">12 promos are available</string>
+
 
     <string name="placeholder_search">Craving Something Special?</string>
     <string name="near_category">Nearest</string>
@@ -24,5 +27,9 @@
 
     <string name="dummy_location">Jl. Palapa Blok A No.19</string>
     <string name="your_location_text">Your Location</string>
+    <string name="see_review_label">See Review</string>
+    <string name="distance_label">Distance</string>
+    <string name="great_rate_label">Great Rate</string>
+    <string name="back">Back to Home Screen</string>
 
 </resources>

@@ -71,6 +71,10 @@ class RestaurantRepository {
 
         _cart.value = cartItems
     }
+
+    fun getCart() {
+         _cart.value = cartItems
+    }
     fun getCartItem(food: Food): CartItem? {
         return cartItems.find { it.food == food }
     }

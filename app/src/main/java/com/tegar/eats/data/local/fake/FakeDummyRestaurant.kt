@@ -27,6 +27,29 @@ object FakeRestaurantDataSource {
             foodPrice = 999,
             shortDescription = "Creamy pasta with bacon and cheese"
         ),
+        Food(
+            idFood = 4,
+            foodImage = R.drawable.food_2,
+            foodName = "Cream sadasdbacon",
+            foodPrice = 999,
+            shortDescription = "Creamy pasta with bacon and cheese"
+        ),
+
+        Food(
+            idFood = 5,
+            foodImage = R.drawable.food_2,
+            foodName = "Cream sadasdbacon",
+            foodPrice = 999,
+            shortDescription = "Creamy pasta with bacon and cheese"
+        ),
+        Food(
+            idFood = 6,
+            foodImage = R.drawable.food_2,
+            foodName = "Cream sadasdbacon",
+            foodPrice = 999,
+            shortDescription = "Creamy pasta with bacon and cheese"
+        ),
+
         )
     val dummyRestaurant = listOf(
         Restaurant(

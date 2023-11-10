@@ -6,10 +6,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun NotificationScreen(
-    modifier : Modifier = Modifier
+fun SearchScreen(
+    modifier : Modifier = Modifier,
+            searchQuery: String
 ){
     Box {
-        Text("Notif Screen")
+        Text("Search Results for: $searchQuery")
     }
 }

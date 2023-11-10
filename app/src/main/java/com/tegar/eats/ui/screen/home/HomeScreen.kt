@@ -1,5 +1,7 @@
 package com.tegar.eats.ui.screen.home
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -11,8 +13,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,14 +36,15 @@ import com.tegar.eats.viewmodels.HomeViewModel
 import com.tegar.eats.viewmodels.ViewModelFactory
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(
         factory = ViewModelFactory(Injection.provideRepository())
     ),
-    navigateToDetail : (Long) -> Unit
-
+    navigateToDetail: (Long) -> Unit,
+    navigateToSearch: (String) -> Unit
 ) {
     var costumeFormValue by remember { mutableStateOf(TextFieldValue()) }
 
@@ -48,10 +53,21 @@ fun HomeScreen(
             .verticalScroll(rememberScrollState())
 
     ) {
-        CostumeForm(
-            value = costumeFormValue,
-            onValueChange = { newValue -> costumeFormValue = newValue }
-        )
+        Box(Modifier.clickable {
+            navigateToDetail
+        }) {
+            CostumeForm(
+                value = costumeFormValue,
+                onValueChange = { newValue -> costumeFormValue = newValue },
+                onImeActionPerformed = { action ->
+                    if (action == ImeAction.Done) {
+                        navigateToSearch(costumeFormValue.text)
+                    }
+
+                }
+
+            )
+        }
 
 
         UserBalanceCard(balance = "Rp 1.253.00", onTopUpClick = { /*TODO*/ }, onPayClick = {})
@@ -71,7 +87,12 @@ fun HomeScreen(
                 is UiState.Success -> {
                     ListSection(
                         title = stringResource(R.string.section_top_restaurant),
-                        content = { RestaurantRow(uiState.data, navigateToDetail =  navigateToDetail) }
+                        content = {
+                            RestaurantRow(
+                                uiState.data,
+                                navigateToDetail = navigateToDetail
+                            )
+                        }
                     )
                 }
 

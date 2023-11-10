@@ -34,6 +34,12 @@ class DetailRestaurantViewModel(
         }
     }
 
+    fun getCart() {
+        viewModelScope.launch {
+            _cartState.value = UiState.Success(repository.getCartState())
+        }
+    }
+
     fun addToCart(restaurantId: Long, food: Food, quantity: Int) {
         viewModelScope.launch {
             repository.addToCart(restaurantId, food, quantity)

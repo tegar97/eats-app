@@ -63,6 +63,7 @@ val OnLightCustomColorsPalette = CustomColorsPalette(
     costumeSpecialColor = DarkBlue,
     costumeBorderColor = white60,
     costumeCardColor = Color.White,
+    costumeFontSubtitleColor = Gray20
 
 
     )

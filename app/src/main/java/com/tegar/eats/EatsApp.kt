@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,7 +46,7 @@ import com.tegar.eats.ui.navigation.NavigationItem
 import com.tegar.eats.ui.navigation.Screen
 import com.tegar.eats.ui.screen.detail.DetailRestaurant
 import com.tegar.eats.ui.screen.home.HomeScreen
-import com.tegar.eats.ui.screen.notification.NotificationScreen
+import com.tegar.eats.ui.screen.notification.SearchScreen
 import com.tegar.eats.ui.screen.order.OrderScreen
 import com.tegar.eats.ui.screen.profile.ProfileScreen
 import com.tegar.eats.ui.theme.EatsTheme
@@ -65,11 +66,14 @@ fun EatsApp(
 
     Scaffold(
         topBar = {
-            TopBar()
+
+            if (currentRoute == Screen.Home.route) {
+                TopBar()
+            }
         },
         bottomBar = {
 
-            if (currentRoute != null) {
+            if (currentRoute == Screen.Home.route) {
                 BottomBar(navController, currentRoute)
             }
 
@@ -84,14 +88,17 @@ fun EatsApp(
         ) {
             composable(Screen.Home.route) {
                 HomeScreen(
-                    navigateToDetail =  {restaurantId ->
+                    navigateToDetail = { restaurantId ->
                         navController.navigate(Screen.DetailRestaurant.createRoute(restaurantId))
-
+                    },
+                    navigateToSearch = { searchQuery ->
+                        navController.navigate(Screen.Search.createRoute(searchQuery))
                     }
                 )
             }
-            composable(Screen.Notification.route) {
-                NotificationScreen()
+            composable(route = Screen.Search.route ){backStackEntry ->
+                val searchQuery = backStackEntry.arguments?.getString("searchQuery") ?: ""
+                SearchScreen(searchQuery = searchQuery)
             }
             composable(Screen.Order.route) {
                 OrderScreen()
@@ -102,12 +109,11 @@ fun EatsApp(
             composable(
                 route = Screen.DetailRestaurant.route,
                 arguments = listOf(navArgument("restaurantId") { type = NavType.LongType }),
-
-
-                ){
+                ) {
                 val restaurantId = it.arguments?.getLong("restaurantId") ?: -1L
-                    DetailRestaurant(restaurantId =  restaurantId ,                     navigateBack = { navController.navigateUp() },
-                    )
+                DetailRestaurant(
+                    restaurantId = restaurantId, navigateBack = { navController.navigateUp() },
+                )
 
             }
         }
@@ -138,8 +144,8 @@ private fun BottomBar(
             ),
             NavigationItem(
                 title = stringResource(R.string.menu_notification),
-                icon = Icons.Default.Notifications,
-                screen = Screen.Notification
+                icon = Icons.Default.Search,
+                screen = Screen.Search
 
             ),
             NavigationItem(
