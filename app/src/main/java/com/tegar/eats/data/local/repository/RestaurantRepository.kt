@@ -5,11 +5,11 @@ import com.tegar.eats.data.local.model.CartItem
 import com.tegar.eats.data.local.model.Food
 import com.tegar.eats.data.local.model.Restaurant
 import com.tegar.eats.ui.screen.detail.CartState
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 class RestaurantRepository {
     private val restaurants = mutableListOf<Restaurant>()
@@ -30,7 +30,9 @@ class RestaurantRepository {
                         restaurant.estimateDistance,
                         restaurant.rating,
                         restaurant.ratingCount,
+
                         restaurant.foods,
+                        restaurant.address,
                     )
                 )
             }
@@ -40,6 +42,7 @@ class RestaurantRepository {
     fun getAllRestaurants(): Flow<List<Restaurant>> {
         return flowOf(restaurants)
     }
+
     fun decrementCartItem(food: Food) {
         val existingItem = cartItems.find { it.food == food }
 
@@ -53,16 +56,40 @@ class RestaurantRepository {
             _cart.value = cartItems
         }
     }
-    fun getRestaurantById(restaurantId: Long): Restaurant {
-        return restaurants.first {
-            it.id == restaurantId
-        }
 
+    fun getRestaurantById(restaurantId: Long): Flow<Restaurant> {
+        return flow {
+            // Just to simulate shimmer stil work
+//            delay(500)
+            emit(restaurants.first { it.id == restaurantId })
+        }
+    }
+
+    fun searchRestaurants(query: String): Flow<List<Restaurant>> {
+        return flow {
+            delay(100)
+            emit(filterRestaurants(query))
+        }
+    }
+
+    private fun filterRestaurants(query: String): List<Restaurant> {
+        return if (query.isBlank()) {
+            restaurants
+        } else {
+            restaurants.filter { restaurant ->
+                restaurant.restaurantName.contains(query, ignoreCase = true) ||
+                        restaurant.foods.any { food ->
+                            food.foodName.contains(
+                                query,
+                                ignoreCase = true
+                            )
+                        }
+            }
+        }
     }
 
     fun addToCart(restaurantId: Long, food: Food, quantity: Int) {
         val existingItem = cartItems.find { it.restaurantId == restaurantId && it.food == food }
-
         if (existingItem != null) {
             existingItem.quantity += quantity
         } else {
@@ -72,32 +99,24 @@ class RestaurantRepository {
         _cart.value = cartItems
     }
 
-    fun getCart() {
-         _cart.value = cartItems
-    }
+
     fun getCartItem(food: Food): CartItem? {
         return cartItems.find { it.food == food }
     }
+
     fun removeFromCart(restaurantId: Long, food: Food) {
         val existingItem = cartItems.find { it.restaurantId == restaurantId && it.food == food }
-
         if (existingItem != null) {
             cartItems.remove(existingItem)
             _cart.value = cartItems
         }
     }
 
-    fun clearCart() {
-        cartItems.clear()
-        _cart.value = cartItems
-    }
 
     fun getCartState(): CartState {
         val totalPrice = cartItems.sumBy { it.food.foodPrice * it.quantity }
         return CartState(cartItems, totalPrice)
     }
-
-
 
 
     companion object {

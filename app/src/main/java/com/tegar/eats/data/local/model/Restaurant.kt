@@ -1,7 +1,6 @@
 package com.tegar.eats.data.local.model
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 
 data class Restaurant(
     val id : Long,
@@ -11,6 +10,7 @@ data class Restaurant(
     val estimateDistance : String,
     val rating : Double,
     val ratingCount : Int,
-    val foods : List<Food>
+    val foods : List<Food>,
+    val address : String
 
     )

@@ -8,22 +8,20 @@ import com.tegar.eats.ui.commons.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val repository : RestaurantRepository) : ViewModel() {
-    private val _uiState: MutableStateFlow<UiState<List<Restaurant>>> = MutableStateFlow(UiState.Loading)
-    val uiState: StateFlow<UiState<List<Restaurant>>>
-        get() = _uiState
+class HomeViewModel(private val restaurantRepository: RestaurantRepository) : ViewModel() {
+    private val _restaurantsState: MutableStateFlow<UiState<List<Restaurant>>> = MutableStateFlow(UiState.Loading)
+    val restaurantsState: StateFlow<UiState<List<Restaurant>>>
+        get() = _restaurantsState
 
-    fun getAllRestaurants() {
+    fun fetchAllRestaurants() {
         viewModelScope.launch {
-            repository.getAllRestaurants().catch {
-                _uiState.value = UiState.Error(it.message.toString())
-            }.collect{ restaurant ->
-                _uiState.value = UiState.Success(restaurant)
+            restaurantRepository.getAllRestaurants().catch { exception ->
+                _restaurantsState.value = UiState.Error(exception.message.orEmpty())
+            }.collect { restaurants ->
+                _restaurantsState.value = UiState.Success(restaurants)
             }
         }
     }
-
 }

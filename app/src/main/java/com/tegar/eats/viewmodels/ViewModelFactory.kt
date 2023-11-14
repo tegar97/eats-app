@@ -13,6 +13,8 @@ class ViewModelFactory(private val repository: RestaurantRepository) :
             return HomeViewModel(repository) as T
         }else if (modelClass.isAssignableFrom(DetailRestaurantViewModel::class.java)) {
             return DetailRestaurantViewModel(repository) as T
+        }else if (modelClass.isAssignableFrom(ExploreViewModel::class.java)) {
+            return ExploreViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }

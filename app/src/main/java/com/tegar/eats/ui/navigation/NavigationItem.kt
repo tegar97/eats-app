@@ -1,9 +1,9 @@
 package com.tegar.eats.ui.navigation
 
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.annotation.DrawableRes
 
 data class NavigationItem(
     val title: String,
-    val icon: ImageVector,
+    @DrawableRes val icon: Int,
     val screen: Screen
 )

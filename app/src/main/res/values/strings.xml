@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Eats</string>
     <string name="menu_home">Home</string>
-    <string name="menu_notification">Notification</string>
+    <string name="menu_search">Search</string>
     <string name="menu_order">Order</string>
     <string name="menu_profile">Profile</string>
 
@@ -20,7 +20,7 @@
 
     <string name="placeholder_search">Craving Something Special?</string>
     <string name="near_category">Nearest</string>
-    <string name="promo_category">Healthy</string>
+    <string name="promo_category">promo</string>
     <string name="best_seller_category">Best Seller</string>
 
     <string name="healty_category">Healthy</string>
@@ -31,5 +31,23 @@
     <string name="distance_label">Distance</string>
     <string name="great_rate_label">Great Rate</string>
     <string name="back">Back to Home Screen</string>
+    <string name="favorite">Make this restaurant favorite</string>
+    <string name="search_food">Search food in this restaurant</string>
+
+    <string name="balance_dummy">"Rp 1.253.00"</string>
+    <string name="error_message">"Something Wrong with server"</string>
+    <string name="voucher_content_description">"Something Wrong with server"</string>
+    <string name="total_price_text">Total Price</string>
+    <string name="add_text">Add</string>
+    <string name="checkout_text">Checkout</string>
+    <string name="search_label">"Search Your favorite Restaurant or Foods</string>
+    <string name="eats_receipt">Receipt Eats</string>
+    <string name="share_message">Hey, I want to buy something in  %s   store x, can I borrow %2$s</string>
+    <string name="avatar_description">This tegar profile</string>
+    <string name="author_name">Muhammad Tegar Akmal</string>
+    <string name="author_email">kakarot123456ar@gmail.com</string>
+    <string name="rating_count_text">%s+ Ratings</string>
+    <string name="rating_star_icon">Restaurant Rating</string>
+    <string name="empty_store_message">No shops are open today</string>
 
 </resources>

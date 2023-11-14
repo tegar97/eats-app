@@ -1,7 +1,9 @@
 package com.tegar.eats
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,13 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,12 +41,13 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.tegar.eats.ui.navigation.NavigationItem
 import com.tegar.eats.ui.navigation.Screen
+import com.tegar.eats.ui.screen.ExploreScreen.ExploreScreen
 import com.tegar.eats.ui.screen.detail.DetailRestaurant
 import com.tegar.eats.ui.screen.home.HomeScreen
-import com.tegar.eats.ui.screen.notification.SearchScreen
 import com.tegar.eats.ui.screen.order.OrderScreen
 import com.tegar.eats.ui.screen.profile.ProfileScreen
 import com.tegar.eats.ui.theme.EatsTheme
+import com.tegar.eats.ui.theme.Orange
 import com.tegar.eats.utils.LocalCustomColorsPalette
 
 
@@ -67,14 +65,16 @@ fun EatsApp(
     Scaffold(
         topBar = {
 
-            if (currentRoute == Screen.Home.route) {
+            if (currentRoute !== Screen.DetailRestaurant.route) {
                 TopBar()
             }
         },
         bottomBar = {
 
-            if (currentRoute == Screen.Home.route) {
-                BottomBar(navController, currentRoute)
+            if (currentRoute != Screen.DetailRestaurant.route) {
+                if (currentRoute != null) {
+                    BottomBar(navController, currentRoute)
+                }
             }
 
         },
@@ -92,13 +92,26 @@ fun EatsApp(
                         navController.navigate(Screen.DetailRestaurant.createRoute(restaurantId))
                     },
                     navigateToSearch = { searchQuery ->
-                        navController.navigate(Screen.Search.createRoute(searchQuery))
+                        navController.navigate(Screen.Search.createRoute(searchQuery)) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     }
                 )
             }
-            composable(route = Screen.Search.route ){backStackEntry ->
+            composable(route = Screen.Search.route) { backStackEntry ->
                 val searchQuery = backStackEntry.arguments?.getString("searchQuery") ?: ""
-                SearchScreen(searchQuery = searchQuery)
+                ExploreScreen(
+                    searchQuery = searchQuery,
+                    navigateToDetail = { restaurantId ->
+                        navController.navigate(Screen.DetailRestaurant.createRoute(restaurantId))
+                    },
+
+                    )
+
             }
             composable(Screen.Order.route) {
                 OrderScreen()
@@ -109,10 +122,15 @@ fun EatsApp(
             composable(
                 route = Screen.DetailRestaurant.route,
                 arguments = listOf(navArgument("restaurantId") { type = NavType.LongType }),
-                ) {
+            ) {
                 val restaurantId = it.arguments?.getLong("restaurantId") ?: -1L
+                val context = LocalContext.current
                 DetailRestaurant(
-                    restaurantId = restaurantId, navigateBack = { navController.navigateUp() },
+                    restaurantId = restaurantId,
+                    navigateBack = { navController.navigateUp() },
+                    onOrderButtonClicked = { message ->
+                        shareOrder(context, message)
+                    }
                 )
 
             }
@@ -121,6 +139,21 @@ fun EatsApp(
     }
 
 
+}
+
+private fun shareOrder(context: Context, summary: String) {
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.eats_receipt))
+        putExtra(Intent.EXTRA_TEXT, summary)
+    }
+
+    context.startActivity(
+        Intent.createChooser(
+            intent,
+            context.getString(R.string.eats_receipt)
+        )
+    )
 }
 
 @Composable
@@ -138,25 +171,25 @@ private fun BottomBar(
         val navigationItems = listOf(
             NavigationItem(
                 title = stringResource(R.string.menu_home),
-                icon = if (currentRoute == Screen.Home.route) Icons.Filled.Home else Icons.Outlined.Home,
+                icon =  if(currentRoute == Screen.Home.route  ) R.drawable.ic_home_filled else R.drawable.ic_home ,
                 screen = Screen.Home
 
             ),
             NavigationItem(
-                title = stringResource(R.string.menu_notification),
-                icon = Icons.Default.Search,
+                title = stringResource(R.string.menu_search),
+                icon =  R.drawable.ic_search,
                 screen = Screen.Search
 
             ),
             NavigationItem(
                 title = stringResource(R.string.menu_order),
-                icon = Icons.Default.ShoppingCart,
+                icon = R.drawable.ic_shop_bag,
                 screen = Screen.Order
 
             ),
             NavigationItem(
                 title = stringResource(R.string.menu_profile),
-                icon = Icons.Default.AccountCircle,
+                icon = R.drawable.ic_profile,
                 screen = Screen.Profile
             ),
         )
@@ -179,12 +212,29 @@ private fun BottomBar(
                 },
 
                 icon = {
-                    Icon(
-                        imageVector = item.icon,
-                        contentDescription = item.title,
+                    Column(
+                        horizontalAlignment =  Alignment.CenterHorizontally,
+                        verticalArrangement =    Arrangement.spacedBy(10.dp)
+                    ){
 
-                        )
-                })
+                        Icon(
+                            painterResource(id = item.icon),
+                            contentDescription = item.title,
+                            modifier = Modifier.size(23.5.dp),
+
+
+                            )
+                        if (currentRoute == item.screen.route) {
+                            Divider(color = Orange, thickness = 2.38.dp, modifier = Modifier.width(23.dp).height(2.dp))
+                        }else{
+                            Divider(color = Color.Transparent, thickness = 2.38.dp, modifier = Modifier.width(23.dp).height(2.dp))
+
+                        }
+
+                    }
+                },
+
+                )
         }
     }
 }
@@ -246,10 +296,3 @@ fun EatsAppPreview() {
     }
 }
 
-//@Preview
-//@Composable
-//fun TopAppBarPreview() {
-//    EatsTheme {
-//        TopBar()
-//    }
-//}

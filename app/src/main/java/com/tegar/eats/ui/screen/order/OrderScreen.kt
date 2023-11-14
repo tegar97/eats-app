@@ -7,9 +7,14 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun OrderScreen(
-    modifier : Modifier = Modifier
-){
+    modifier: Modifier = Modifier,
+
+) {
+
+
     Box {
-        Text("Order Screen")
+
+        Text("Comming Soon")
+
     }
 }

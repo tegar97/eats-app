@@ -2,7 +2,6 @@ package com.tegar.eats.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tegar.eats.data.local.model.CartItem
 import com.tegar.eats.data.local.model.Food
 import com.tegar.eats.data.local.model.Restaurant
 import com.tegar.eats.data.local.repository.RestaurantRepository
@@ -10,7 +9,7 @@ import com.tegar.eats.ui.commons.UiState
 import com.tegar.eats.ui.screen.detail.CartState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class DetailRestaurantViewModel(
@@ -29,8 +28,12 @@ class DetailRestaurantViewModel(
 
     fun getRestaurantById(restaurantId: Long) {
         viewModelScope.launch {
-            _uiState.value = UiState.Loading
-            _uiState.value = UiState.Success(repository.getRestaurantById(restaurantId))
+            repository.getRestaurantById(restaurantId).catch { exception ->
+                _uiState.value = UiState.Error(exception.message.orEmpty())
+            }.collect{ restaurant ->
+                _uiState.value = UiState.Success(restaurant)
+            }
+
         }
     }
 
@@ -63,10 +66,5 @@ class DetailRestaurantViewModel(
         }
     }
 
-    fun clearCart() {
-        viewModelScope.launch {
-            repository.clearCart()
-            _cartState.value = UiState.Success(repository.getCartState())
-        }
-    }
+
 }

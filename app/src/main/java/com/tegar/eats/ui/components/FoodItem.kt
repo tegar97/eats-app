@@ -2,20 +2,16 @@ package com.tegar.eats.ui.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
+
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,12 +21,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tegar.eats.R
 import com.tegar.eats.data.local.model.CartItem
 import com.tegar.eats.data.local.model.Food
 import com.tegar.eats.utils.LocalCustomColorsPalette
@@ -41,7 +40,7 @@ fun FoodItem(
     @DrawableRes foodImg: Int,
     foodName: String,
     foodDesc: String,
-    foodPrice: Int,
+    foodPrice: String,
     foods: List<Food>,
     food: Food,
     cartItems: List<CartItem>,
@@ -56,7 +55,7 @@ fun FoodItem(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier.padding(
             horizontal = 16.dp
-        )
+        ).testTag("foodsList")
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -90,7 +89,7 @@ fun FoodItem(
                     maxLines = 1,
                 )
                 Text(
-                    "Rp $foodPrice", style = MaterialTheme.typography.labelSmall.copy(
+                    foodPrice, style = MaterialTheme.typography.labelSmall.copy(
                         color = MaterialTheme.colorScheme.primary
                     )
                 )
@@ -117,9 +116,12 @@ fun FoodItem(
                     vertical = 0.dp,
                     horizontal = 20.dp
                 ),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xffFFDED4), contentColor = MaterialTheme.colorScheme.primary)
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xffFFDED4), contentColor = MaterialTheme.colorScheme.primary),
+                modifier =  Modifier.testTag("addBtn ${food.idFood}")
+
             ) {
-                Text("Add", style = MaterialTheme.typography.labelSmall.copy(
+                Text(stringResource(R.string.add_text),
+                    style = MaterialTheme.typography.labelSmall.copy(
                     fontFamily = FontFamily.Default,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold
