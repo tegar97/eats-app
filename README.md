@@ -34,10 +34,15 @@ There are 3 main screens:
 - 
 ## Screenshot
 
-![Home screen](https://github.com/tegar97/eats-app/blob/main/screenshot/screenshot_home.jpg?raw=true) 
-![ Explore screen](https://github.com/tegar97/eats-app/blob/main/screenshot/screenshot_explroe.jpg?raw=true) 
-![ Explore screen](https://github.com/tegar97/eats-app/blob/main/screenshot/screenshot_detail.jpg?raw=true) 
 
+
+<table class="center" >
+   <td> <img src="https://github.com/tegar97/eats-app/blob/main/screenshot/screenshot_home.jpg?raw=true" alt="Home screen" width="200"/></td>
+   <td><img src="https://github.com/tegar97/eats-app/blob/main/screenshot/screenshot_explroe.jpg" alt="Explore screen" width="200"/></td>
+   <td><img src="https://github.com/tegar97/eats-app/blob/main/screenshot/screenshot_detail.jpg" alt="Detail screen" width="200"/></td>
+
+
+</table>
 
 
 ## Design Refrence
