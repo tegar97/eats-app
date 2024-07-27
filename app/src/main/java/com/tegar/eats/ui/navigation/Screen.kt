@@ -2,6 +2,9 @@ package com.tegar.eats.ui.navigation
 
 sealed class Screen(val route: String) {
     object Home : Screen("home")
+    object OnBoarding : Screen("onboarding")
+    object Survey : Screen("survey")
+
     object Search : Screen("search/{searchQuery}") {
         fun createRoute(searchQuery: String) = "search/$searchQuery"
     }

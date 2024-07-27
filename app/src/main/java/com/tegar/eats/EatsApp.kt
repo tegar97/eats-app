@@ -44,8 +44,10 @@ import com.tegar.eats.ui.navigation.Screen
 import com.tegar.eats.ui.screen.ExploreScreen.ExploreScreen
 import com.tegar.eats.ui.screen.detail.DetailRestaurant
 import com.tegar.eats.ui.screen.home.HomeScreen
+import com.tegar.eats.ui.screen.onboarding.OnboardingScreen
 import com.tegar.eats.ui.screen.order.OrderScreen
 import com.tegar.eats.ui.screen.profile.ProfileScreen
+import com.tegar.eats.ui.screen.survey.SurveyScreen
 import com.tegar.eats.ui.theme.EatsTheme
 import com.tegar.eats.ui.theme.Orange
 import com.tegar.eats.utils.LocalCustomColorsPalette
@@ -64,14 +66,12 @@ fun EatsApp(
 
     Scaffold(
         topBar = {
-
-            if (currentRoute !== Screen.DetailRestaurant.route) {
+            if (currentRoute != Screen.DetailRestaurant.route && currentRoute != Screen.OnBoarding.route && currentRoute != Screen.Survey.route) {
                 TopBar()
             }
         },
         bottomBar = {
-
-            if (currentRoute != Screen.DetailRestaurant.route) {
+            if ( currentRoute != Screen.DetailRestaurant.route && currentRoute != Screen.OnBoarding.route && currentRoute != Screen.Survey.route) {
                 if (currentRoute != null) {
                     BottomBar(navController, currentRoute)
                 }
@@ -83,7 +83,7 @@ fun EatsApp(
     ) { paddingValue ->
         NavHost(
             navController = navController,
-            startDestination = Screen.Home.route,
+            startDestination = Screen.OnBoarding.route,
             modifier = Modifier.padding(paddingValue)
         ) {
             composable(Screen.Home.route) {
@@ -102,6 +102,7 @@ fun EatsApp(
                     }
                 )
             }
+
             composable(route = Screen.Search.route) { backStackEntry ->
                 val searchQuery = backStackEntry.arguments?.getString("searchQuery") ?: ""
                 ExploreScreen(
@@ -113,8 +114,19 @@ fun EatsApp(
                     )
 
             }
-            composable(Screen.Order.route) {
-                OrderScreen()
+            composable(Screen.OnBoarding.route) {
+                OnboardingScreen(
+                    navigateToSurvey = {
+                        navController.navigate(Screen.Survey.route)
+                    }
+                )
+            }
+            composable(Screen.Survey.route) {
+                SurveyScreen(
+                    navigateToHome = {
+                        navController.navigate(Screen.Home.route)
+                    }
+                )
             }
             composable(Screen.Profile.route) {
                 ProfileScreen()
